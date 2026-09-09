@@ -79,9 +79,10 @@ Running_time=10:00:00
 
 ###########################################################################################################################################
 
-dos2unix $input_list
-line_count=$(wc -l < $input_list)
+dos2unix "$input_list"
+line_count=$(wc -l < "$input_list")
 
-sbatch --array=0-$(($line_count - 1)) --time $Running_time ${ScriptDir}/Coloc.Permutation.sh $input_list $gwas_dir $loci_dir $qtl_dir $use_ld $ref_genome_prefix $ld_threshold $distance_ $type_QTL $type_GWAS $use_permut $coloc_P_threshold $n_permut $out_prefix $ScriptDir
+sbatch --array=0-$(($line_count - 2)) --time "$Running_time" "${ScriptDir}/Main/Dependant_Scripts/Coloc.Permutation.sh" "$input_list" "$gwas_dir" "$loci_dir" "$qtl_dir" "$use_ld" "$ref_genome_prefix" "$ld_threshold" "$distance_" \
+        "$type_QTL" "$type_GWAS" "$use_permut" "$coloc_P_threshold" "$n_permut" "$out_prefix" "$ScriptDir"
 
-echo "$line_count jobs submitted."
+echo "$(($line_count - 1)) jobs submitted."
